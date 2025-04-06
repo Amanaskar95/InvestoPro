@@ -13,7 +13,16 @@ router.post("/signup", async (req, res) => {
         const newUser = new User({ name, email, password: hashedPassword });
         await newUser.save();
 
-        res.status(201).json({ message: "User registered successfully" });
+        // You can generate token here if needed
+
+        res.status(201).json({
+            message: "User registered successfully",
+            user: {
+                userId: newUser._id,
+                name: newUser.name,
+                email: newUser.email
+            }
+        });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
